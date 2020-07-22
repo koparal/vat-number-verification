@@ -22,3 +22,9 @@ php artisan migrate
 ```bash
 php artisan queue:work
 ```
+
+## PHPUnit Test
+```bash
+vendor/bin/phpunit or
+php vendor/phpunit/phpunit/phpunit
+```
