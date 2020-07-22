@@ -6,7 +6,14 @@ This project has been prepared for VAT Number verification. Made with Laravel.
 git clone https://github.com/koparal/vat-number-verification.git
 ```
 
-## Added Queue Parameters to .env 
+## Composer Install
+
+```bash
+composer install
+```
+
+
+## Edit and Add Queue Parameters to .env 
 
 ```bash
 QUEUE_DRIVER=database
