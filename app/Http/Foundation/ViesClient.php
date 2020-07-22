@@ -9,7 +9,7 @@ class ViesClient
     public $client;
 
     /** @var string */
-    private $base_url = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
+    private $base_url = "http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl";
 
     /** @var array */
     public $opts = ['http' => ['user_agent' => 'PHPSoapClient']];
@@ -25,8 +25,8 @@ class ViesClient
             ];
             $this->client = new \SoapClient($this->base_url, $clientOps);
 
-        } catch (Exception $e) {
-            throw new Exception("API connection failed. Please try again.",$e->getMessage());
+        } catch (\SoapFault $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -43,8 +43,8 @@ class ViesClient
                 'vatNumber' => $vat_number
             ];
             return $this->client->checkVat($params);
-        } catch (Exception $e) {
-            throw new Exception("Data could not be retrieved. Please try again.",$e->getMessage());
+        } catch (SoapFault $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 }

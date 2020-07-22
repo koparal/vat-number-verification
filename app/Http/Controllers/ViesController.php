@@ -20,7 +20,7 @@ class ViesController extends Controller
             "SI", "SK"
         ];
 
-        return view("vies.home", ["country_codes"=>$country_codes]);
+        return view("vies.home", ["country_codes" => $country_codes]);
     }
 
     public function validator(StoreVatRequest $request)
@@ -28,13 +28,13 @@ class ViesController extends Controller
         // Form Server Side Validation
         $request->validated();
 
-        try{
+        try {
             // Send request inputs to Vies Validator
             $validator = new ViesValidator($request->country_code, $request->vat_number);
             // Store database with queue
             VatRequestJob::dispatch($validator);
-        }catch (\Exception $e){
-            throw new \Exception("An error occurred during the request. Please try again.", $e->getMessage());
+        } catch (\SoapFault $e) {
+            return redirect()->back()->withErrors(['error' => "An error occurred during the request. Please try again. Error Code : " . $e->getMessage()]);
         }
 
         return redirect()->back()->with("validator", $validator);
