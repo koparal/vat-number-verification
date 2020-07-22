@@ -9,7 +9,7 @@ class ViesClient
     public $client;
 
     /** @var string */
-    private $base_url = "http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl";
+    private $base_url = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
 
     /** @var array */
     public $opts = ['http' => ['user_agent' => 'PHPSoapClient']];
@@ -17,7 +17,6 @@ class ViesClient
     public function __construct()
     {
         try {
-
             $cont = stream_context_create($this->opts);
             $clientOps = [
                 'stream_context' => $cont,
@@ -25,8 +24,8 @@ class ViesClient
             ];
             $this->client = new \SoapClient($this->base_url, $clientOps);
 
-        } catch (\SoapFault $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -43,8 +42,8 @@ class ViesClient
                 'vatNumber' => $vat_number
             ];
             return $this->client->checkVat($params);
-        } catch (SoapFault $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }
